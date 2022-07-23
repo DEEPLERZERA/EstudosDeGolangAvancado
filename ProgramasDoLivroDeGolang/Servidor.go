@@ -22,7 +22,7 @@ func init() {
 
 func Encurtador(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		responderCom(w, http.StatusMethodNotAllowed, Headers{
+		responderCom(w, http.StatusMethodNotAllowed, headers{
 			"Allow": "POST",
 		})
 		return
