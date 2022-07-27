@@ -8,6 +8,6 @@ import (
 
 //CHAMANDO FUNÇÃO MAIN
 func main() {
-	routes.CarregaRotas()
+	routes.CarregaRotas() //Chama rotas
 	http.ListenAndServe(":8000", nil) //Fica ouvindo requisições na porta 8000
 }

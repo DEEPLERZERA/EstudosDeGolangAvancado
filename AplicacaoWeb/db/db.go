@@ -1,5 +1,6 @@
-package db
+package db //Definindo pacote db
 
+//Importando bibliotecas 
 import (
 	"database/sql"
 

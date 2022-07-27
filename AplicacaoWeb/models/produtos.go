@@ -1,5 +1,6 @@
-package models
+package models  //Definindo pacote models
 
+//IMPORTANDO BIBLIOTECAS
 import (
 	"ProjetosDeGolang/aplicacaoweb/db"
 )
@@ -13,6 +14,7 @@ type Produto struct {
 	Quantidade int
 }
 
+//CRIANDO FUNÇÃO DE BUSCAR TODOS OS PRODUTOS
 func BuscaTodosOsProdutos() []Produto {
 	db := db.ConectaComBancoDeDados() //Gera conexão com db
 
@@ -50,69 +52,74 @@ func BuscaTodosOsProdutos() []Produto {
 	return produtos
 }
 
+//FUNÇÃO DE CRIAR PRODUTOS
 func CriaNovoProduto(nome, descricao string, preco float64, quantidade int) {
-	db := db.ConectaComBancoDeDados()
+	db := db.ConectaComBancoDeDados() //Define conexão com banco de dados
 
-	insereDadosNoBanco, err := db.Prepare("insert into produtos(nome, descricao, preco, quantidade) values($1, $2, $3, $4)")
-	if err != nil {
+	insereDadosNoBanco, err := db.Prepare("insert into produtos(nome, descricao, preco, quantidade) values($1, $2, $3, $4)") //Prepara para inserir dados no BD
+	if err != nil { //Verifica se há erro
 		panic(err.Error())
 	}
 
-	insereDadosNoBanco.Exec(nome, descricao, preco, quantidade)
-	defer db.Close()
+	insereDadosNoBanco.Exec(nome, descricao, preco, quantidade) //Se não executa ordem e insere os dados
+	defer db.Close() //Fecha o banco de dados
 }
 
+//FUNÇÃO DE DELETAR PRODUTO
 func DeletaProduto(id string) {
-	db := db.ConectaComBancoDeDados()
+	db := db.ConectaComBancoDeDados()  //Define conexão com banco de dados
 
-	DeletaOProduto, err := db.Prepare("delete from produtos where id = $1")
-	if err != nil {
+	DeletaOProduto, err := db.Prepare("delete from produtos where id = $1") //Prepara para deletar dados do banco de dados
+	if err != nil {  //Verifica se há erro
 		panic(err.Error())
 	}
 
-	DeletaOProduto.Exec(id)
-	defer db.Close()
+	DeletaOProduto.Exec(id)  //Executa ordem de deletar produto
+	defer db.Close()  //Fecha banco de dados
 }
 
+//FUNÇÃO DE EDITAR PRODUTO QUE RETORNA PRODUTO
 func EditaProduto(id string) Produto {
-	db := db.ConectaComBancoDeDados()
+	db := db.ConectaComBancoDeDados() //Define conexão com banco de dados
 
-	ProdutoDoBanco, err := db.Query("select * from produtos where id = $1", id)
+	ProdutoDoBanco, err := db.Query("select * from produtos where id = $1", id)  //Faz uma busca na base de dados de acordo com id
 
-	if err != nil {
+	if err != nil { //Verifica se há erro
 		panic(err.Error())
 	}
 
-	produtoParaAtualizar := Produto{}
+	produtoParaAtualizar := Produto{}  //Atribue slice para produtoParaAtualizar
 
-	for ProdutoDoBanco.Next() {
-		var id, quantidade int
+	for ProdutoDoBanco.Next() {  //percorre os dados do produto
+		var id, quantidade int  
 		var nome, descricao string
 		var preco float64
 
-		err = ProdutoDoBanco.Scan(&id, &nome, &descricao, &preco, &quantidade)
+		err = ProdutoDoBanco.Scan(&id, &nome, &descricao, &preco, &quantidade)  //Scanneia todos um por um
 
-		if err != nil {
+		if err != nil { //Verifica se há erro
 			panic(err.Error())
 		}
-		produtoParaAtualizar.Id = id
+		produtoParaAtualizar.Id = id  //Atribue os dados para produtoParaAtualizar que contém um slice em sua memória
 		produtoParaAtualizar.Nome = nome
 		produtoParaAtualizar.Descricao = descricao
 		produtoParaAtualizar.Preco = preco
 		produtoParaAtualizar.Quantidade = quantidade
 	}
-	defer db.Close()
+	defer db.Close()  //Fecha o banco de dados
 	return produtoParaAtualizar
 
 }
 
-func AtualizaProduto(id int, nome, descricao string, preco float64, quantidade int) {
-	db := db.ConectaComBancoDeDados()
 
-	AtualizaProduto, err := db.Prepare("update produtos set nome=$1, descricao=$2, preco=$3, quantidade=$4 where id=$5")
-	if err != nil {
+//FUNÇÃO DE ATUALIZAR PRODUTO
+func AtualizaProduto(id int, nome, descricao string, preco float64, quantidade int) {
+	db := db.ConectaComBancoDeDados() //Define conexão com banco de dados
+
+	AtualizaProduto, err := db.Prepare("update produtos set nome=$1, descricao=$2, preco=$3, quantidade=$4 where id=$5") //Prepara para dar update no BD
+	if err != nil {  //Verifica se há erro
 		panic(err.Error())
 	}
-	AtualizaProduto.Exec(nome, descricao, preco, quantidade, id)
-	defer db.Close()
+	AtualizaProduto.Exec(nome, descricao, preco, quantidade, id)  //Se não executa ordem e atualiza dados do produto
+	defer db.Close()  //Fecha o banco de dados
 }
