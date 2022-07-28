@@ -12,5 +12,6 @@ func HandleRequests() {
 	r := gin.Default()                             //Starta gin
 	r.GET("/alunos", controllers.ExibeTodosAlunos) //Criando rotas que tem como parâmetros suas funções que estão em controllers
 	r.GET("/:nome", controllers.Saudacao)
+	r.POST("/aluno", controllers.CriaNovoAluno)
 	r.Run() //Rodando gin
 }
