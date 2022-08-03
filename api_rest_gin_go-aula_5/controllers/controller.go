@@ -93,3 +93,17 @@ func BuscaAlunoPorCPF(c *gin.Context) {
 
 	c.JSON(http.StatusOK, aluno)
 }
+
+//Função que exibe página
+func ExibePaginaIndex(c *gin.Context) {
+	var alunos []models.Aluno                  //Chama os alunos e passa para a variável
+	database.DB.Find(&alunos)                  //Procura no BD e passa para a variável
+	c.HTML(http.StatusOK, "index.html", gin.H{ //retorna alunos
+		"Alunos": alunos,
+	})
+}
+
+//Função para quando rota não é encontrada
+func RotaNaoEncontrada(c *gin.Context) {
+	c.HTML(http.StatusNotFound, "404.html", nil) //Puxa página html
+}
