@@ -11,7 +11,7 @@ import (
 
 //Esta função exibe todos os alunos com base no contexto do gin
 func ExibeTodosAlunos(c *gin.Context) {
-	var alunos []models.Aluno
+	var alunos []models.Aluno //Variável alunos do tipo []models.Aluno
 	database.DB.Find(&alunos) ///Acha o dado alunos na base de dados com um ponteiro
 	c.JSON(200, alunos)       //Retorna 200 e pega os dados da slice Alunos
 }
@@ -38,7 +38,7 @@ func CriaNovoAluno(c *gin.Context) {
 
 //Criando função que busca aluno por id
 func BuscaAlunoPorID(c *gin.Context) {
-	var aluno models.Aluno
+	var aluno models.Aluno        //Variável alunos do tipo models.Aluno
 	id := c.Params.ByName("id")   //Busca todos os parâmetros por id
 	database.DB.First(&aluno, id) //Retorna o primeiro que achar que bateu
 
@@ -53,15 +53,15 @@ func BuscaAlunoPorID(c *gin.Context) {
 
 //Criando função de deletar
 func DeletaAluno(c *gin.Context) {
-	var aluno models.Aluno
-	id := c.Params.ByName("id")    //Busca parâmetros por ID
-	database.DB.Delete(&aluno, id) //Deleta da base de dados
-	c.JSON(http.StatusOK, gin.H{"data": "Aluno deletado com sucesso"})
+	var aluno models.Aluno                                                    //Variável alunos do tipo models.Aluno
+	id := c.Params.ByName("id")                                               //Busca parâmetros por ID
+	database.DB.Delete(&aluno, id)                                            //Deleta da base de dados
+	c.JSON(http.StatusNoContent, gin.H{"data": "Aluno deletado com sucesso"}) //Retorna 204 e imprime na tela mensagem de deletado
 }
 
 //Criando função de editar alunos
 func EditaAluno(c *gin.Context) {
-	var aluno models.Aluno
+	var aluno models.Aluno        //Variável alunos do tipo models.Aluno
 	id := c.Params.ByName("id")   //Busca parâmetros por ID
 	database.DB.First(&aluno, id) //Procura no banco
 
@@ -77,7 +77,7 @@ func EditaAluno(c *gin.Context) {
 
 //Criando função que retorna por busca de cpf
 func BuscaAlunoPorCPF(c *gin.Context) {
-	var aluno models.Aluno
+	var aluno models.Aluno //Variável alunos do tipo models.Aluno
 
 	cpf := c.Param("cpf")                                    //Busca por parâmetro cpf
 	database.DB.Where(&models.Aluno{CPF: cpf}).First(&aluno) //O primeiro cpf que acha equivalente retorna
