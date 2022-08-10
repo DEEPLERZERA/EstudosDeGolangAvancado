@@ -1,0 +1,1 @@
+create table produtos(id serial, nome varchar, descricao varchar, preco float, quantidade int) /* Cria tabela produtos */
