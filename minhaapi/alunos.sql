@@ -1,0 +1,1 @@
+create table alunos(id serial, nome varchar, rg int, cpf int) /* Cria tabela alunos */
