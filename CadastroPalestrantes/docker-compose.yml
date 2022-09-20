@@ -1,0 +1,40 @@
+version: '3'                                                                                                         #Especifíca versão em que está o postgres
+
+services:                                                                                                            #Especifíca serviços a serem utilizados
+
+  postgres:                                                                                                          #Chamando postgres
+
+    image: "postgres"                                                                                                #Imagem do postgres
+
+    environment:                                                                                                     #Variáveis de ambiente
+
+      - POSTGRES_USER=root                                                                                           #Usuário do postgres
+
+      - POSTGRES_PASSWORD=root                                                                                       #Senha do postgres
+      
+      - POSTGRES_DB=root                                                                                             #Nome do banco de dados    
+
+    ports:                                                                                                           #Portas a serem utilizadas
+
+      - "5432:5432"                                                                                                  #Porta 5432 do postgres
+
+    volumes:                                                                                                         #Volumes a serem utilizados
+
+      - ./migration/docker-database-initial.sql:/docker-entrypoint-initdb.d/docker-database-initial.sql              #Arquivo de inicialização do banco de dados
+
+  pgadmin-compose:                                                                                                   #Chamando pgadmin
+
+    image: dpage/pgadmin4                                                                                            #Imagem do pgadmin
+
+    environment:                                                                                                     #Variáveis de ambiente
+
+      PGADMIN_DEFAULT_EMAIL: "dani2014games@gmail.com"                                                               #Email do pgadmin
+      PGADMIN_DEFAULT_PASSWORD: "123456"                                                                             #Senha do pgadmin
+
+    ports:                                                                                                           #Portas a serem utilizadas
+
+      - "54321:80"                                                                                                   #Porta 54321 do pgadmin
+
+    depends_on:                                                                                                      #Dependências
+    
+      - postgres                                                                                                     #Dependência do postgres
