@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"ProjetosDeGolang/CadastroPalestrantes/controllers"
+	"CadastroPalestrantes/controllers"
 
 	"github.com/gin-gonic/gin"
 

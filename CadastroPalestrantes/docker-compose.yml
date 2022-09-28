@@ -1,40 +1,38 @@
-version: '3'                                                                                                         #Especifíca versão em que está o postgres
+version: '3'
+services:
+  postgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root      
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./migration/docker-database-initial.sql:/docker-entrypoint-initdb.d/docker-database-initial.sql  
+    networks:
+      - my-network
 
-services:                                                                                                            #Especifíca serviços a serem utilizados
 
-  postgres:                                                                                                          #Chamando postgres
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "dani2014games@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "12345:80"
+    depends_on:
+      - postgres
 
-    image: "postgres"                                                                                                #Imagem do postgres
+  cadastropalestrantes:
+    image: cadastropalestrantes
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - my-network    
 
-    environment:                                                                                                     #Variáveis de ambiente
-
-      - POSTGRES_USER=root                                                                                           #Usuário do postgres
-
-      - POSTGRES_PASSWORD=root                                                                                       #Senha do postgres
-      
-      - POSTGRES_DB=root                                                                                             #Nome do banco de dados    
-
-    ports:                                                                                                           #Portas a serem utilizadas
-
-      - "5432:5432"                                                                                                  #Porta 5432 do postgres
-
-    volumes:                                                                                                         #Volumes a serem utilizados
-
-      - ./migration/docker-database-initial.sql:/docker-entrypoint-initdb.d/docker-database-initial.sql              #Arquivo de inicialização do banco de dados
-
-  pgadmin-compose:                                                                                                   #Chamando pgadmin
-
-    image: dpage/pgadmin4                                                                                            #Imagem do pgadmin
-
-    environment:                                                                                                     #Variáveis de ambiente
-
-      PGADMIN_DEFAULT_EMAIL: "dani2014games@gmail.com"                                                               #Email do pgadmin
-      PGADMIN_DEFAULT_PASSWORD: "123456"                                                                             #Senha do pgadmin
-
-    ports:                                                                                                           #Portas a serem utilizadas
-
-      - "54321:80"                                                                                                   #Porta 54321 do pgadmin
-
-    depends_on:                                                                                                      #Dependências
-    
-      - postgres                                                                                                     #Dependência do postgres
+networks:
+  my-network:
+    driver: bridge       

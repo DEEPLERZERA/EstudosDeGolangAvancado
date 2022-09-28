@@ -1,8 +1,8 @@
 package main
 
 import (
-	"ProjetosDeGolang/CadastroPalestrantes/database"
-	"ProjetosDeGolang/CadastroPalestrantes/routes"
+	"CadastroPalestrantes/database"
+	"CadastroPalestrantes/routes"
 )
 
 
